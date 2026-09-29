@@ -1,0 +1,7 @@
+{
+  "name": "轻量PLM图纸与工程变更管理系统",
+  "description": "基于物料档案、批量图纸智能导入、图号版本流转、BOM管理与全屏标签页式ECN工程变更管理系统",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

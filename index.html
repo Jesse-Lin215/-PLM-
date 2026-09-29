@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>轻量PLM图纸与工程变更管理系统</title>
+    <meta name="description" content="基于物料档案、批量图纸智能导入、图号版本流转、BOM管理与全屏标签页式ECN工程变更管理系统" />
+    <meta property="og:title" content="轻量PLM图纸与工程变更管理系统" />
+    <meta property="og:description" content="基于物料档案、批量图纸智能导入、图号版本流转、BOM管理与全屏标签页式ECN工程变更管理系统" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      // 严禁系统或开发环境进行任何自动刷新、重载或跳回首页
+      (function() {
+        // 1. 阻断任何 Vite HMR WebSocket 重连导致的自动 reload
+        if (typeof window !== 'undefined') {
+          const NativeWebSocket = window.WebSocket;
+          window.WebSocket = function(url, protocols) {
+            if (typeof url === 'string' && (url.includes('vite') || url.includes(':3000') || url.includes('__vite'))) {
+              return {
+                readyState: 1, // 伪装成永远连接正常
+                send: function() {},
+                close: function() {},
+                addEventListener: function(event, handler) {
+                  if (event === 'open') {
+                    setTimeout(function() {
+                      try { handler({ type: 'open' }); } catch (e) {}
+                    }, 0);
+                  }
+                },
+                removeEventListener: function() {},
+                dispatchEvent: function() { return true; }
+              };
+            }
+            return new NativeWebSocket(url, protocols);
+          };
+          window.WebSocket.prototype = NativeWebSocket.prototype;
+
+          // 2. 劫持并禁止任何代码调用 location.reload()
+          try {
+            Object.defineProperty(window.location, 'reload', {
+              configurable: true,
+              writable: true,
+              value: function() {
+                console.warn('[Guard] 已阻止 location.reload() 自动刷新请求。');
+              }
+            });
+          } catch (e) {
+            try {
+              window.location.reload = function() {
+                console.warn('[Guard] 已阻止 location.reload() 自动刷新请求。');
+              };
+            } catch (err) {}
+          }
+
+          // 3. 拦截未捕获的全局异常，防止SPA崩溃重置
+          window.addEventListener('error', function(e) {
+            console.warn('[Guard] 捕获未处理的运行时异常，防止页面崩溃:', e.message);
+          });
+          window.addEventListener('unhandledrejection', function(e) {
+            console.warn('[Guard] 捕获未处理的Promise拒绝，防止页面崩溃:', e.reason);
+          });
+
+          // 4. 全局拦截未处理的表单提交行为，杜绝浏览器默认提交刷新
+          window.addEventListener('submit', function(e) {
+            if (!e.defaultPrevented) {
+              e.preventDefault();
+              console.warn('[Guard] 已阻止表单默认提交刷新行为。');
+            }
+          }, true);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
